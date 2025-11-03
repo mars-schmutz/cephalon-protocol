@@ -2,6 +2,8 @@
 import { ref, onMounted } from "vue";
 import { useResourcesStore } from "@/stores/resources";
 import { useCreditsStore } from "@/stores/credits";
+import StatCard from "@/components/StatCard.vue";
+import { getRarityColor } from "@/utils/colors";
 import gsap from "gsap";
 
 const resourcesStore = useResourcesStore();
@@ -27,19 +29,6 @@ const handleExtractorClick = (extractorId: string, index: number) => {
       repeat: 1,
       ease: "power2.out",
     });
-  }
-};
-
-const getRarityColor = (rarity: string) => {
-  switch (rarity) {
-    case "common":
-      return "emerald";
-    case "uncommon":
-      return "blue";
-    case "rare":
-      return "purple";
-    default:
-      return "gray";
   }
 };
 
@@ -80,53 +69,37 @@ onMounted(() => {
 
         <!-- Resource Display Grid -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-          <!-- Ferrite -->
-          <div class="flex flex-col items-center gap-2 px-4 py-3 bg-black/60 border-2 border-emerald-500 clip-bevel-md">
-            <div class="text-xs text-emerald-400 tracking-widest uppercase">[ FERRITE ]</div>
-            <div class="text-3xl font-bold text-emerald-300 tabular-nums">
-              {{ resourcesStore.formatNumber(resourcesStore.ferrite) }}
-            </div>
-            <div class="flex items-center gap-2 text-xs text-emerald-500/70">
-              <div class="w-1.5 h-1.5 bg-emerald-400 animate-pulse"></div>
-              <span>{{ resourcesStore.formatNumber(resourcesStore.ferritePerSecond) }}/s</span>
-            </div>
-          </div>
-
-          <!-- Alloy Plate -->
-          <div class="flex flex-col items-center gap-2 px-4 py-3 bg-black/60 border-2 border-emerald-500 clip-bevel-md">
-            <div class="text-xs text-emerald-400 tracking-widest uppercase">[ ALLOY PLATE ]</div>
-            <div class="text-3xl font-bold text-emerald-300 tabular-nums">
-              {{ resourcesStore.formatNumber(resourcesStore.alloyPlate) }}
-            </div>
-            <div class="flex items-center gap-2 text-xs text-emerald-500/70">
-              <div class="w-1.5 h-1.5 bg-emerald-400 animate-pulse [animation-delay:0.3s]"></div>
-              <span>{{ resourcesStore.formatNumber(resourcesStore.alloyPlatePerSecond) }}/s</span>
-            </div>
-          </div>
-
-          <!-- Plastids -->
-          <div class="flex flex-col items-center gap-2 px-4 py-3 bg-black/60 border-2 border-blue-500 clip-bevel-md">
-            <div class="text-xs text-blue-400 tracking-widest uppercase">[ PLASTIDS ]</div>
-            <div class="text-3xl font-bold text-blue-300 tabular-nums">
-              {{ resourcesStore.formatNumber(resourcesStore.plastids) }}
-            </div>
-            <div class="flex items-center gap-2 text-xs text-blue-500/70">
-              <div class="w-1.5 h-1.5 bg-blue-400 animate-pulse [animation-delay:0.6s]"></div>
-              <span>{{ resourcesStore.formatNumber(resourcesStore.plastidsPerSecond) }}/s</span>
-            </div>
-          </div>
-
-          <!-- Neurodes -->
-          <div class="flex flex-col items-center gap-2 px-4 py-3 bg-black/60 border-2 border-purple-500 clip-bevel-md">
-            <div class="text-xs text-purple-400 tracking-widest uppercase">[ NEURODES ]</div>
-            <div class="text-3xl font-bold text-purple-300 tabular-nums">
-              {{ resourcesStore.formatNumber(resourcesStore.neurodes) }}
-            </div>
-            <div class="flex items-center gap-2 text-xs text-purple-500/70">
-              <div class="w-1.5 h-1.5 bg-purple-400 animate-pulse [animation-delay:0.9s]"></div>
-              <span>{{ resourcesStore.formatNumber(resourcesStore.neurodesPerSecond) }}/s</span>
-            </div>
-          </div>
+          <StatCard
+            label="FERRITE"
+            :value="resourcesStore.formatNumber(resourcesStore.ferrite)"
+            :per-second="resourcesStore.formatNumber(resourcesStore.ferritePerSecond)"
+            border-color="emerald"
+            layout="vertical"
+          />
+          <StatCard
+            label="ALLOY PLATE"
+            :value="resourcesStore.formatNumber(resourcesStore.alloyPlate)"
+            :per-second="resourcesStore.formatNumber(resourcesStore.alloyPlatePerSecond)"
+            border-color="emerald"
+            layout="vertical"
+            animation-delay="0.3s"
+          />
+          <StatCard
+            label="PLASTIDS"
+            :value="resourcesStore.formatNumber(resourcesStore.plastids)"
+            :per-second="resourcesStore.formatNumber(resourcesStore.plastidsPerSecond)"
+            border-color="blue"
+            layout="vertical"
+            animation-delay="0.6s"
+          />
+          <StatCard
+            label="NEURODES"
+            :value="resourcesStore.formatNumber(resourcesStore.neurodes)"
+            :per-second="resourcesStore.formatNumber(resourcesStore.neurodesPerSecond)"
+            border-color="purple"
+            layout="vertical"
+            animation-delay="0.9s"
+          />
         </div>
 
         <!-- Credits Display -->

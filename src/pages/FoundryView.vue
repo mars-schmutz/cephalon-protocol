@@ -3,6 +3,8 @@ import { ref, onMounted, computed } from "vue";
 import { useFoundryStore } from "@/stores/foundry";
 import { useResourcesStore } from "@/stores/resources";
 import type { FoundryItem } from "@/stores/foundry";
+import StatCard from "@/components/StatCard.vue";
+import { getRarityColor, getTypeIcon } from "@/utils/colors";
 import gsap from "gsap";
 
 const foundryStore = useFoundryStore();
@@ -48,33 +50,6 @@ const handleItemClick = (item: FoundryItem, index: number) => {
   }
 };
 
-
-const getRarityColor = (rarity: string) => {
-  switch (rarity) {
-    case "common":
-      return "emerald";
-    case "uncommon":
-      return "blue";
-    case "rare":
-      return "purple";
-    case "legendary":
-      return "orange";
-    default:
-      return "gray";
-  }
-};
-
-const getTypeIcon = (type: string) => {
-  switch (type) {
-    case "warframe":
-      return "◆";
-    case "weapon":
-      return "⚔";
-    default:
-      return "●";
-  }
-};
-
 onMounted(() => {
   // Gentle pulse animation for item cards
   itemRefs.value.forEach((ref, index) => {
@@ -112,37 +87,34 @@ onMounted(() => {
 
         <!-- Resource Display Grid -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-          <!-- Ferrite -->
-          <div class="flex flex-col items-center gap-2 px-4 py-3 bg-black/60 border-2 border-emerald-500 clip-bevel-md">
-            <div class="text-xs text-emerald-400 tracking-widest uppercase">[ FERRITE ]</div>
-            <div class="text-2xl font-bold text-emerald-300 tabular-nums">
-              {{ resourcesStore.formatNumber(resourcesStore.ferrite) }}
-            </div>
-          </div>
-
-          <!-- Alloy Plate -->
-          <div class="flex flex-col items-center gap-2 px-4 py-3 bg-black/60 border-2 border-emerald-500 clip-bevel-md">
-            <div class="text-xs text-emerald-400 tracking-widest uppercase">[ ALLOY PLATE ]</div>
-            <div class="text-2xl font-bold text-emerald-300 tabular-nums">
-              {{ resourcesStore.formatNumber(resourcesStore.alloyPlate) }}
-            </div>
-          </div>
-
-          <!-- Plastids -->
-          <div class="flex flex-col items-center gap-2 px-4 py-3 bg-black/60 border-2 border-blue-500 clip-bevel-md">
-            <div class="text-xs text-blue-400 tracking-widest uppercase">[ PLASTIDS ]</div>
-            <div class="text-2xl font-bold text-blue-300 tabular-nums">
-              {{ resourcesStore.formatNumber(resourcesStore.plastids) }}
-            </div>
-          </div>
-
-          <!-- Neurodes -->
-          <div class="flex flex-col items-center gap-2 px-4 py-3 bg-black/60 border-2 border-purple-500 clip-bevel-md">
-            <div class="text-xs text-purple-400 tracking-widest uppercase">[ NEURODES ]</div>
-            <div class="text-2xl font-bold text-purple-300 tabular-nums">
-              {{ resourcesStore.formatNumber(resourcesStore.neurodes) }}
-            </div>
-          </div>
+          <StatCard
+            label="FERRITE"
+            :value="resourcesStore.formatNumber(resourcesStore.ferrite)"
+            border-color="emerald"
+            layout="vertical"
+            :show-dot="false"
+          />
+          <StatCard
+            label="ALLOY PLATE"
+            :value="resourcesStore.formatNumber(resourcesStore.alloyPlate)"
+            border-color="emerald"
+            layout="vertical"
+            :show-dot="false"
+          />
+          <StatCard
+            label="PLASTIDS"
+            :value="resourcesStore.formatNumber(resourcesStore.plastids)"
+            border-color="blue"
+            layout="vertical"
+            :show-dot="false"
+          />
+          <StatCard
+            label="NEURODES"
+            :value="resourcesStore.formatNumber(resourcesStore.neurodes)"
+            border-color="purple"
+            layout="vertical"
+            :show-dot="false"
+          />
         </div>
 
         <!-- Stats -->

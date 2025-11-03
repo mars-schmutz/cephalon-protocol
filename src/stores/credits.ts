@@ -1,5 +1,6 @@
 import { ref, computed, onMounted } from "vue";
 import { defineStore } from "pinia";
+import { formatNumber } from "@/utils/format";
 
 export interface Upgrade {
   id: string;
@@ -193,19 +194,6 @@ export const useCreditsStore = defineStore("credits", () => {
     lifetimeClicks.value = 0;
     upgrades.value.forEach((u) => (u.level = 0));
     localStorage.removeItem("cephalon-save");
-  };
-
-  const formatNumber = (num: number): string => {
-    if (num >= 1_000_000_000) {
-      return (num / 1_000_000_000).toFixed(2) + "B";
-    }
-    if (num >= 1_000_000) {
-      return (num / 1_000_000).toFixed(2) + "M";
-    }
-    if (num >= 1_000) {
-      return (num / 1_000).toFixed(2) + "K";
-    }
-    return Math.floor(num).toString();
   };
 
   // Initialize

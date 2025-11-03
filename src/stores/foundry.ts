@@ -1,6 +1,7 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import { useResourcesStore } from "./resources";
+import { formatNumber, formatTime } from "@/utils/format";
 
 export interface ResourceCost {
   ferrite?: number;
@@ -266,19 +267,6 @@ export const useFoundryStore = defineStore("foundry", () => {
     return Math.ceil(remaining / 1000); // Convert to seconds
   };
 
-  const formatTimeRemaining = (seconds: number): string => {
-    if (seconds >= 3600) {
-      const hours = Math.floor(seconds / 3600);
-      const mins = Math.floor((seconds % 3600) / 60);
-      return `${hours}h ${mins}m`;
-    } else if (seconds >= 60) {
-      const mins = Math.floor(seconds / 60);
-      const secs = seconds % 60;
-      return `${mins}m ${secs}s`;
-    }
-    return `${seconds}s`;
-  };
-
   // Persistence
   const saveToLocalStorage = () => {
     const saveData = {
@@ -321,16 +309,6 @@ export const useFoundryStore = defineStore("foundry", () => {
     localStorage.removeItem("cephalon-foundry");
   };
 
-  const formatNumber = (num: number): string => {
-    if (num >= 1_000_000) {
-      return (num / 1_000_000).toFixed(1) + "M";
-    }
-    if (num >= 1_000) {
-      return (num / 1_000).toFixed(1) + "K";
-    }
-    return Math.floor(num).toString();
-  };
-
   // Initialize
   loadFromLocalStorage();
 
@@ -353,7 +331,7 @@ export const useFoundryStore = defineStore("foundry", () => {
     completeBuild,
     getBuildProgress,
     getBuildTimeRemaining,
-    formatTimeRemaining,
+    formatTimeRemaining: formatTime,
     resetFoundry,
     formatNumber,
     saveToLocalStorage,

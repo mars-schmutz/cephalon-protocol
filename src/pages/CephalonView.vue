@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useCreditsStore } from "@/stores/credits";
+import StatCard from "@/components/StatCard.vue";
 import gsap from "gsap";
 
 const creditsStore = useCreditsStore();
@@ -105,20 +106,19 @@ onMounted(() => {
 
         <!-- Stats Bar -->
         <div class="flex gap-8 mt-2 text-sm">
-          <div class="flex items-center gap-2 px-4 py-2 bg-black/60 border border-cyan-500/50">
-            <div class="w-2 h-2 bg-cyan-400 animate-pulse"></div>
-            <span class="text-cyan-300 tracking-wider">CPC:</span>
-            <span class="text-white font-bold tabular-nums">
-              {{ creditsStore.formatNumber(creditsStore.creditsPerClick) }}
-            </span>
-          </div>
-          <div class="flex items-center gap-2 px-4 py-2 bg-black/60 border border-orange-500/50">
-            <div class="w-2 h-2 bg-orange-400 animate-pulse [animation-delay:0.5s]"></div>
-            <span class="text-orange-300 tracking-wider">CPS:</span>
-            <span class="text-white font-bold tabular-nums">
-              {{ creditsStore.formatNumber(creditsStore.creditsPerSecond) }}
-            </span>
-          </div>
+          <StatCard
+            label="CPC:"
+            :value="creditsStore.formatNumber(creditsStore.creditsPerClick)"
+            border-color="cyan"
+            layout="horizontal"
+          />
+          <StatCard
+            label="CPS:"
+            :value="creditsStore.formatNumber(creditsStore.creditsPerSecond)"
+            border-color="orange"
+            layout="horizontal"
+            animation-delay="0.5s"
+          />
         </div>
       </div>
     </div>

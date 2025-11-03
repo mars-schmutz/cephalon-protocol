@@ -1,6 +1,7 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import { useCreditsStore } from "./credits";
+import { formatNumber } from "@/utils/format";
 
 export interface ResourceExtractor {
   id: string;
@@ -250,19 +251,6 @@ export const useResourcesStore = defineStore("resources", () => {
     totalNeurodesEarned.value = 0;
     extractors.value.forEach((e) => (e.level = 0));
     localStorage.removeItem("cephalon-resources");
-  };
-
-  const formatNumber = (num: number): string => {
-    if (num >= 1_000_000_000) {
-      return (num / 1_000_000_000).toFixed(2) + "B";
-    }
-    if (num >= 1_000_000) {
-      return (num / 1_000_000).toFixed(2) + "M";
-    }
-    if (num >= 1_000) {
-      return (num / 1_000).toFixed(2) + "K";
-    }
-    return Math.floor(num).toString();
   };
 
   // Initialize
